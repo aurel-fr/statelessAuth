@@ -10,7 +10,7 @@ import styles from "../styles/Home.module.css";
 
 function Home() {
   const { address: wallet } = useSelector((state) => state.wallet);
-  const { currentData, error } = useGetDashboardQuery(wallet, { skip: !wallet });
+  const { currentData, isFetching, error } = useGetDashboardQuery(wallet, { skip: !wallet });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,14 +21,14 @@ function Home() {
       iOS = true;
     }
     dispatch(setIOS(iOS));
-  }, [dispatch]);  
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
       <Head>
         <title>Web3 auth</title>
         <meta name="description" content="Web3 auth example" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <header className={styles.header}>
         <h1>Stateless session management with the Algorand Wallet</h1>
@@ -40,7 +40,9 @@ function Home() {
         <p />
         <span>My dashboard:</span>
         <br />
-        {currentData ? (
+        {isFetching ? (
+          "Fetching dashboard..."
+        ) : currentData ? (
           <div className="dashboardSuccess">{currentData.message}</div>
         ) : (
           <div>
@@ -54,4 +56,4 @@ function Home() {
   );
 }
 
-export default Home
+export default Home;

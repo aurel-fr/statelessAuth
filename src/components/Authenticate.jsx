@@ -17,15 +17,9 @@ const Authenticate = () => {
           onClick={() => {
             setIsAuthenticating(true);
             draftAuthTx({ wallet })
-              .then(
-                (token) => (
-                  dispatch(replaceAuthToken(token)),
-                  localStorage.setItem("authToken", token),
-                  setIsAuthenticating(false)
-                )
-              )
+              .then((token) => (dispatch(replaceAuthToken(token)), localStorage.setItem("authToken", token)))
               .catch((err) => console.log(err?.message))
-              .finally(() => refetch());
+              .finally(() => (refetch(), setIsAuthenticating(false)));
           }}
         >
           Authenticate
