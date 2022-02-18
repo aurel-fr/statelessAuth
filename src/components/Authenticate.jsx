@@ -9,6 +9,7 @@ const Authenticate = () => {
   const { refetch } = useGetDashboardQuery(wallet, { skip: !wallet });
   const dispatch = useDispatch();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   return wallet ? (
     <div>
@@ -17,9 +18,15 @@ const Authenticate = () => {
           onClick={() => {
             setIsAuthenticating(true);
             draftAuthTx({ wallet })
-              .then((token) => (dispatch(replaceAuthToken(token)), localStorage.setItem("authToken", token)))
-              .catch((err) => console.log(err?.message))
-              .finally(() => (refetch(), setIsAuthenticating(false)));
+              .then(
+                (token) => (
+                  dispatch(replaceAuthToken(token)),
+                  localStorage.setItem("authToken", token),
+                  setIsAuthenticating(false)
+                )
+              )
+              .catch((err) => setErrorMsg(err?.message))
+              .finally(() => refetch());
           }}
         >
           Authenticate
@@ -28,10 +35,10 @@ const Authenticate = () => {
       {isAuthenticating && (
         <div className="overlay">
           <div className="popup">
-            <div className="close" onClick={() => setIsAuthenticating(false)}>
+            <div className="close" onClick={() => (setIsAuthenticating(false), setErrorMsg(""))}>
               &times;
             </div>
-            <div className="content">Review the auth transaction in your wallet</div>
+            <div className="content">{errorMsg ? errorMsg : "Review the auth transaction in your wallet"}</div>
           </div>
         </div>
       )}
