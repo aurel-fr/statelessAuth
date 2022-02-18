@@ -22,8 +22,8 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(error.message);
     //Sending back raw error messages could give valuable info to an attacker.
-    //In production you might want to check whether the message corresponds
-    //to one thrown by the auth middleware else send a generic error message.
+    //In production check whether the message corresponds
+    //to one thrown by the auth function else send a generic error message.
     res.status(401).json({ message: error.message });
   }
 }

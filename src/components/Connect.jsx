@@ -18,7 +18,7 @@ const Connect = () => {
     return () => {
       document.removeEventListener("keydown", escFunction, false);
     };
-  }, []);  
+  }, []);
 
   useEffect(() => {
     if (connector.connected && connector?.accounts?.length > 0) {
@@ -42,13 +42,7 @@ const Connect = () => {
       {wallet ? (
         <>
           <button disabled>Connect Wallet</button>&nbsp;
-          <button
-            onClick={() => {
-              disconnectMobileWallet();              
-            }}
-          >
-            Disconnect Wallet
-          </button>
+          <button onClick={disconnectMobileWallet}>Disconnect Wallet</button>
         </>
       ) : (
         <>

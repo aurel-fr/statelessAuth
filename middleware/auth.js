@@ -3,17 +3,14 @@ import algosdk from "algosdk";
 import { day2 } from "../src/constants";
 
 const authMidddleware = async (wallet, token) => {
-  //algosdk decodeSignedTx needs a Uint8Array
+  //converting the base64 encoded tx back to binary data
   const decodeToken = new Uint8Array(Buffer.from(token, "base64"));
 
+  //getting a SignedTransaction object from the array buffer
   const decodedTx = algosdk.decodeSignedTransaction(decodeToken);
 
   //auth tx whose params we'll check
   const toCheck = decodedTx.txn;
-
-  // get the public key from the account address
-  const address = algosdk.decodeAddress(wallet);
-  const publicKey = address.publicKey;
 
   // get the signature from the signed transaction
   const signature = decodedTx.sig;
@@ -26,8 +23,8 @@ const authMidddleware = async (wallet, token) => {
   // comparing them directly would always return false since
   // "from" and "to" are distincts array buffers.
   // We therefore convert them back to base32 for comparison.
-  const fromString = algosdk.encodeAddress(toCheck.from.publicKey);
-  const toString = algosdk.encodeAddress(toCheck.to.publicKey);
+  const from = algosdk.encodeAddress(toCheck.from.publicKey);
+  const to = algosdk.encodeAddress(toCheck.to.publicKey);
 
   // Guard clause to make sure the token isn't expired.
   // We also check the token expiration is not too far out, which would be a red flag.
@@ -44,11 +41,13 @@ const authMidddleware = async (wallet, token) => {
     toCheck.lastRound === 10 &&
     !toCheck.amount &&
     decodedNote[0] === "https://yourdomain.com" &&
-    fromString === toString &&
-    fromString === wallet
+    from === to &&
+    // It is crucial to verify this or an attacker could sign
+    // their own valid token and log into any account!
+    from === wallet
   ) {
     // verify signature and return if it succeeds
-    const verified = await nobleEd25519.verify(signature, toCheck.bytesToSign(), publicKey);
+    const verified = await nobleEd25519.verify(signature, toCheck.bytesToSign(), toCheck.from.publicKey);
     if (verified) return;
   }
   throw new Error("Invalid authentication");

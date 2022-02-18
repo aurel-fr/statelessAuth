@@ -26,8 +26,8 @@ function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Web3 auth</title>
-        <meta name="description" content="Web3 auth example" />
+        <title>Stateless auth</title>
+        <meta name="description" content="Stateless session management with the Algorand Wallet" />
         <link rel="icon" href="/favicon.png" />
       </Head>
       <header className={styles.header}>
@@ -35,11 +35,9 @@ function Home() {
       </header>
       <main className={styles.main}>
         <Connect />
-        <p>Wallet connected: {wallet ? wallet : "none"}</p>
+        Wallet connected: {wallet ? wallet : "none"}
         <Authenticate />
-        <p />
         <span>My dashboard:</span>
-        <br />
         {isFetching ? (
           "Fetching dashboard..."
         ) : currentData ? (
