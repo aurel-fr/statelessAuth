@@ -44,7 +44,7 @@ function Home() {
           <div className="dashboardSuccess">{currentData.message}</div>
         ) : (
           <div>
-            <span>status: {error?.status}</span>
+            <span>{error?.status && `status: ${error?.status}`}</span>
             <br />
             <span className="dashboardError">{error?.data?.message}</span>
           </div>
