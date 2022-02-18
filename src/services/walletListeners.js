@@ -1,16 +1,15 @@
 import { connector } from "./connector";
+import { nextApi } from "./nextApi";
+import { replaceAddress, replaceAuthToken } from "./walletSlice";
 
-export const walletListeners = (store) => {
+export const walletListeners = ({ dispatch }) => {
   connector.on("connect", (error, payload) => {
     try {
       if (error) {
         throw error;
       }
       const { accounts } = payload.params[0];
-      store.dispatch({
-        type: "wallet/replaceAddress",
-        payload: accounts[0],
-      });
+      dispatch(replaceAddress(accounts[0]));
     } catch (error) {
       console.error(error);
     }
@@ -21,14 +20,9 @@ export const walletListeners = (store) => {
       if (error) {
         throw error;
       }
-      store.dispatch({
-        type: "wallet/replaceAddress",
-        payload: null,
-      });
-      store.dispatch({
-        type: "wallet/replaceAuthToken",
-        payload: null,
-      });
+      dispatch(replaceAuthToken(null));
+      dispatch(replaceAddress(null));
+      dispatch(nextApi.util.resetApiState());
       localStorage.clear();
     } catch (error) {
       console.error(error);

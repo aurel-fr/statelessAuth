@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import draftAuthTx from "../services/draftAuthTx";
-import { useGetDashboardQuery } from "../services/nextapi";
+import { useGetDashboardQuery } from "../services/nextApi";
 import { replaceAuthToken } from "../services/walletSlice";
 
 const Authenticate = () => {

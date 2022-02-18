@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { nextApi } from "../services/nextapi";
+import { nextApi } from "../services/nextApi";
 import { walletListeners } from "../services/walletListeners";
 import walletSlice from "../services/walletSlice";
 

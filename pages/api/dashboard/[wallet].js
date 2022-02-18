@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     // If token is undefined we return early with a 401.
     if (token?.length !== 2) {
-      return res.status(401).json({ message: "Error, no authentication header." });
+      return res.status(401).json({ message: "Please authenticate to access your dashboard." });
     }
 
     //middleware-like function to check the token validity
