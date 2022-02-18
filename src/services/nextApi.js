@@ -24,7 +24,7 @@ const staggeredBaseQuery = retry(
     }
 
     // There is no use retrying when we get these errors
-    if ([400, 401, 403, 404, 429].includes(result.error?.status)) {
+    if ([400, 401, 403, 404, 405, 429].includes(result.error?.status)) {
       retry.fail(result.error);
     }
 
