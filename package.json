@@ -8,9 +8,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@json-rpc-tools/utils": "^1.7.6",
+    "@noble/ed25519": "^1.5.3",
+    "@reduxjs/toolkit": "^1.7.2",
+    "@walletconnect/client": "^1.7.1",
+    "algorand-walletconnect-qrcode-modal": "^1.6.1",
+    "algosdk": "^1.13.1",
     "next": "12.0.10",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.6",
+    "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "8.8.0",
