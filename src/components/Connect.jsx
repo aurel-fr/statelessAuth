@@ -21,20 +21,20 @@ const Connect = () => {
   }, []);
 
   useEffect(() => {
-    if (connector.connected && connector?.accounts?.length > 0) {
+    if (connector.connected && connector.accounts.length > 0) {
       dispatch(replaceAddress(connector.accounts[0]));
     }
   }, [dispatch]);
 
   const connectToMobileWallet = async () => {
-    if (connector?.connected) return;
-    if (connector?.handshakeTopic) return QRCodeModal.open(connector.uri);
+    if (connector.connected) return;
+    if (connector.handshakeTopic) return QRCodeModal.open(connector.uri);
     await connector.createSession();
   };
 
   const disconnectMobileWallet = async () => {
-    if (!connector?.connected) return;
-    await connector?.killSession();
+    if (!connector.connected) return;
+    await connector.killSession();
   };
 
   return (

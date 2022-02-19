@@ -5,7 +5,7 @@ import { connector } from "./connector";
 
 async function draftAuthTx({ wallet }) {
   const enc = new TextEncoder();
-  const notePlainText = `https://yourdomain.com ${Date.now() + day1}`;
+  const notePlainText = `https://stateless-auth.vercel.app/ ${Date.now() + day1}`;
   const note = enc.encode(notePlainText);
 
   const authTransaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
@@ -26,7 +26,7 @@ async function draftAuthTx({ wallet }) {
   const txnToSign = [
     {
       txn: Buffer.from(algosdk.encodeUnsignedTransaction(authTransaction)).toString("base64"),
-      message: "Authentication",
+      message: "This transaction is free and for authentication purposes.",
     },
   ];
 

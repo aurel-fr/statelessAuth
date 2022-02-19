@@ -40,7 +40,7 @@ const authMidddleware = async (wallet, token) => {
     toCheck.firstRound === 10 &&
     toCheck.lastRound === 10 &&
     !toCheck.amount &&
-    decodedNote[0] === "https://yourdomain.com" &&
+    decodedNote[0] === "https://stateless-auth.vercel.app/" &&
     from === to &&
     // It is crucial to verify this or an attacker could sign
     // their own valid token and log into any account!
