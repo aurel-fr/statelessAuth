@@ -11,24 +11,22 @@ const Authenticate = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  return wallet ? (
+  const authenticate = () => {
+    setIsAuthenticating(true);
+    draftAuthTx({ wallet })
+      .then(
+        (token) => (
+          dispatch(replaceAuthToken(token)), localStorage.setItem("authToken", token), setIsAuthenticating(false)
+        )
+      )
+      .catch((err) => setErrorMsg(err?.message))
+      .finally(() => refetch());
+  };
+
+  return (
     <div>
       <a href={iOS ? `algorand-wc://` : `algorand://`}>
-        <button
-          onClick={() => {
-            setIsAuthenticating(true);
-            draftAuthTx({ wallet })
-              .then(
-                (token) => (
-                  dispatch(replaceAuthToken(token)),
-                  localStorage.setItem("authToken", token),
-                  setIsAuthenticating(false)
-                )
-              )
-              .catch((err) => setErrorMsg(err?.message))
-              .finally(() => refetch());
-          }}
-        >
+        <button disabled={!wallet} onClick={authenticate}>
           Authenticate
         </button>
       </a>
@@ -43,10 +41,6 @@ const Authenticate = () => {
         </div>
       )}
     </div>
-  ) : (
-    <p>
-      <button disabled>Authenticate</button>
-    </p>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { replaceAddress } from "../services/walletSlice";
 import QRCodeModal from "algorand-walletconnect-qrcode-modal";
@@ -38,19 +38,15 @@ const Connect = () => {
   };
 
   return (
-    <p className="wallet-buttons">
-      {wallet ? (
-        <>
-          <button disabled>Connect Wallet</button>&nbsp;
-          <button onClick={disconnectMobileWallet}>Disconnect Wallet</button>
-        </>
-      ) : (
-        <>
-          <button onClick={connectToMobileWallet}>Connect Wallet</button>&nbsp;
-          <button disabled> Disconnect Wallet </button>
-        </>
-      )}
-    </p>
+    <div className="wallet-buttons">
+      <button disabled={wallet} onClick={connectToMobileWallet}>
+        Connect Wallet
+      </button>
+      &nbsp;
+      <button disabled={!wallet} onClick={disconnectMobileWallet}>
+        Disconnect Wallet
+      </button>
+    </div>
   );
 };
 
