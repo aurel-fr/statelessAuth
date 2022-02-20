@@ -33,6 +33,7 @@ async function draftAuthTx({ wallet }) {
   const requestParams = [txnToSign];
   const request = formatJsonRpcRequest("algo_signTxn", requestParams);
   const result = await connector.sendCustomRequest(request);
-  return Buffer.from(result[0]).toString("base64");
+  const token = result[0].isArray ? Buffer.from(result[0]).toString("base64") : result[0];
+  return token;
 }
 export default draftAuthTx;
