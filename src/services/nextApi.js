@@ -9,7 +9,6 @@ const staggeredBaseQuery = retry(
       baseUrl,
       prepareHeaders: (headers, { getState }) => {
         const token = getState().wallet.authToken;
-
         if (token) {
           headers.set("authorization", `Bearer ${token}`);
         }
