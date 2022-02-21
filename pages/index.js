@@ -31,7 +31,7 @@ function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <header className={styles.header}>
-        <h1>Stateless session management with the Algorand Wallet</h1>
+        <h1>Stateless session management with the Pera Wallet</h1>
       </header>
       <main className={styles.main}>
         <Connect />

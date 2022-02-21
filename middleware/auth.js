@@ -1,6 +1,6 @@
 import * as nobleEd25519 from "@noble/ed25519";
 import algosdk from "algosdk";
-import { day2 } from "../src/constants";
+import { day1, minutes30 } from "../src/constants";
 
 const authMidddleware = async (wallet, token) => {
   //converting the base64 encoded tx back to binary data
@@ -19,16 +19,15 @@ const authMidddleware = async (wallet, token) => {
   const note = new TextDecoder().decode(toCheck.note);
   const decodedNote = note.split(" ");
 
-  // Typed arrays represent binary data in memory,
-  // comparing them directly would always return false since
-  // "from" and "to" are distincts array buffers.
+  // "from" and "to" are distincts ArrayBuffers,
+  // comparing them directly would always return false.
   // We therefore convert them back to base32 for comparison.
   const from = algosdk.encodeAddress(toCheck.from.publicKey);
   const to = algosdk.encodeAddress(toCheck.to.publicKey);
 
-  // Guard clause to make sure the token isn't expired.
+  // Guard clause to make sure the token has not expired.
   // We also check the token expiration is not too far out, which would be a red flag.
-  if (Number(decodedNote[1]) < Date.now() || Number(decodedNote[1]) > Date.now() + day2) {
+  if (Number(decodedNote[1]) < Date.now() || Number(decodedNote[1]) > Date.now() + day1 + minutes30) {
     throw new Error("Token expired, authenticate again");
   }
 
