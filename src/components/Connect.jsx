@@ -10,9 +10,7 @@ const Connect = () => {
 
   useEffect(() => {
     const escFunction = (event) => {
-      if (event.keyCode === 27) {
-        QRCodeModal.close();
-      }
+      if (event.keyCode === 27) QRCodeModal.close();
     };
     document.addEventListener("keydown", escFunction, false);
     return () => {
@@ -25,7 +23,7 @@ const Connect = () => {
       dispatch(replaceAddress(connector.accounts[0]));
     }
   }, [dispatch]);
-  
+
   const connectToMobileWallet = async () => {
     if (connector.connected) return;
     if (connector.pending) return QRCodeModal.open(connector.uri);
