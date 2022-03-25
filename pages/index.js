@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { UAParser } from "ua-parser-js";
 import Authenticate from "../src/components/Authenticate";
 import Connect from "../src/components/Connect";
-import { useGetDashboardQuery } from "../src/services/nextApi";
-import { setIOS } from "../src/services/walletSlice";
+import { useGetDashboardQuery } from "../src/redux/nextApi";
+import { setIOS } from "../src/redux/walletSlice";
 import styles from "../styles/Home.module.css";
 
 function Home() {

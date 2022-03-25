@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { nextApi } from "../services/nextApi";
-import { walletListeners } from "../services/walletListeners";
-import walletSlice from "../services/walletSlice";
+import { nextApi } from "./nextApi";
+import walletSlice from "./walletSlice";
+import { walletListeners } from "./walletListeners";
 
 const store = configureStore({
   reducer: {

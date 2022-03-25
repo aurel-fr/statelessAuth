@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import draftAuthTx from "../services/draftAuthTx";
-import { useGetDashboardQuery } from "../services/nextApi";
-import { replaceAuthToken } from "../services/walletSlice";
+import draftAuthTx from "../helpers/draftAuthTx";
+import { useGetDashboardQuery } from "../redux/nextApi";
+import { replaceAuthToken } from "../redux/walletSlice";
 
 const Authenticate = () => {
   const { address: wallet, iOS } = useSelector((state) => state.wallet);
@@ -11,7 +11,7 @@ const Authenticate = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const auth = () => {
+  const auth = async () => {
     setIsAuthenticating(true);
     draftAuthTx({ wallet })
       .then((token) => {
