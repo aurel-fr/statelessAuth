@@ -65,8 +65,6 @@ export const connector = new WalletConnect({
 
 
 Here we are setting up our WalletConnect instance as an ES6 module. We'll be able to access it anywhere in our app by calling it as a top-level import. 
-Depending on our needs, a dynamic import could also be an option, using the following syntax:
-`const { connector } = await import("../services/connector")`, and calling it in the relevant functions.
 
 As a side note [do not send the WalletConnect instance to the Redux store](https://redux.js.org/style-guide/style-guide#do-not-put-non-serializable-values-in-state-or-actions)  if you can avoid it.
 

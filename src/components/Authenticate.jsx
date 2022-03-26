@@ -12,6 +12,7 @@ const Authenticate = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const auth = async () => {
+    window.location.href=iOS ? `algorand-wc://` : `algorand://`;
     setIsAuthenticating(true);
     draftAuthTx({ wallet })
       .then((token) => {
@@ -25,11 +26,11 @@ const Authenticate = () => {
 
   return (
     <div>
-      <a href={iOS ? `algorand-wc://` : `algorand://`}>
+      {/* <a href={iOS ? `algorand-wc://` : `algorand://`}> */}
         <button disabled={!wallet} onClick={auth}>
           Authenticate
         </button>
-      </a>
+      {/* </a> */}
       {isAuthenticating && (
         <div className="overlay">
           <div className="popup">
