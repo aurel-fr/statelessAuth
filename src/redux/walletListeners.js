@@ -1,4 +1,4 @@
-import { connector } from "../adapters/connector";
+import { connector } from "../adapters/walletConnect";
 import { nextApi } from "./nextApi";
 import { replaceAddress, replaceAuthToken } from "./walletSlice";
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { replaceAddress } from "../redux/walletSlice";
 import QRCodeModal from "algorand-walletconnect-qrcode-modal";
-import { connector } from "../adapters/connector";
+import { connector } from "../adapters/walletConnect";
 
 const Connect = () => {
   const { address: wallet } = useSelector((state) => state.wallet);

@@ -32,13 +32,9 @@ const authMidddleware = async (wallet, token) => {
   }
 
   // We check if the params match the ones we set in the front-end
-  if (
-    toCheck.genesisID === "mainnet-v1.0" &&
-    toCheck.type === "pay" &&
-    !toCheck.fee &&
+  if (  
     toCheck.firstRound === 10 &&
-    toCheck.lastRound === 10 &&
-    !toCheck.amount &&
+    toCheck.lastRound === 10 &&    
     decodedNote[0] === "https://stateless-auth.vercel.app/" &&
     from === to &&
     // It is crucial to verify this or an attacker could sign

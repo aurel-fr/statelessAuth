@@ -1,7 +1,7 @@
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import algosdk from "algosdk";
 import { day1 } from "../constants/milliseconds";
-import { connector } from "../adapters/connector";
+import { connector } from "../adapters/walletConnect";
 
 async function draftAuthTx({ wallet }) {
   const enc = new TextEncoder();
