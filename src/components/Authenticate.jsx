@@ -12,25 +12,24 @@ const Authenticate = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const auth = async () => {
-    window.location.href=iOS ? `algorand-wc://` : `algorand://`;
+    window.location.href = iOS ? `algorand-wc://` : `algorand://`;
     setIsAuthenticating(true);
-    draftAuthTx({ wallet })
-      .then((token) => {
-        dispatch(replaceAuthToken(token));
-        localStorage.setItem("authToken", token);
-        setIsAuthenticating(false);
-      })
-      .catch((err) => setErrorMsg(err?.message))
-      .finally(() => refetch());
+    try {
+      const token = await draftAuthTx({ wallet });
+      dispatch(replaceAuthToken(token));
+      localStorage.setItem("authToken", token);
+      setIsAuthenticating(false);
+    } catch (error) {
+      setErrorMsg(error?.message);
+    }
+    refetch();
   };
 
   return (
     <div>
-      {/* <a href={iOS ? `algorand-wc://` : `algorand://`}> */}
-        <button disabled={!wallet} onClick={auth}>
-          Authenticate
-        </button>
-      {/* </a> */}
+      <button disabled={!wallet} onClick={auth}>
+        Authenticate
+      </button>
       {isAuthenticating && (
         <div className="overlay">
           <div className="popup">

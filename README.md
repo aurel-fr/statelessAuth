@@ -167,10 +167,10 @@ Have you noticed I'm adding dispatch to the dependency array? This serves no oth
 However, the React hooks lint rules do not know that dispatch should be stable, and will warn that the dispatch variable should be added to dependency arrays for `useEffect` and `useCallback`. The simplest solution is to do just that.
 
 
-Once that's done it's simply a matter of wrapping our buttons with 
-`<a href={iOS ? "algorand-wc://" : "algorand://"}>`
+Once that's done we'll redirect users who authenticate with:
+`window.location.href=iOS ? "algorand-wc://" : "algorand://;`
 
-On iOS `algorand://` will redirect you to any number of wallets that support Algorand. If your users have several wallets installed and you want to call the Pera wallet, make sure to use `algorand-wc://`
+On iOS `algorand://` will redirect you to any number of wallets that support Algorand. If our users have several wallets installed and we want to call the Pera wallet, we need to use `algorand-wc://`
 
 ### 5. Drafting the auth transaction
 
@@ -248,17 +248,19 @@ Authenticate.jsx is a simple button with an auth function that calls draftAuthTx
 
 
 ```
-const auth = () => {
+const auth = async () => {
+    window.location.href = iOS ? `algorand-wc://` : `algorand://`;
     setIsAuthenticating(true);
-    draftAuthTx({ wallet })
-      .then((token) => {
-        dispatch(replaceAuthToken(token));
-        localStorage.setItem("authToken", token);
-        setIsAuthenticating(false);
-      })
-      .catch((err) => setErrorMsg(err?.message))
-      .finally(() => refetch());
-  };
+    try {
+      const token = await draftAuthTx({ wallet });
+      dispatch(replaceAuthToken(token));
+      localStorage.setItem("authToken", token);
+      setIsAuthenticating(false);
+    } catch (error) {
+      setErrorMsg(error?.message);
+    }
+    refetch();
+};
 ```
 
 
