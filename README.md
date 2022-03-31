@@ -168,7 +168,7 @@ However, the React hooks lint rules do not know that dispatch should be stable, 
 
 
 Once that's done we'll redirect users who authenticate with:
-`window.location.href=iOS ? "algorand-wc://" : "algorand://;`
+`window.location.href=iOS ? "algorand-wc://" : "algorand://"`
 
 On iOS `algorand://` will redirect you to any number of wallets that support Algorand. If our users have several wallets installed and we want to call the Pera wallet, we need to use `algorand-wc://`
 
