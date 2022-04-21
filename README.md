@@ -53,7 +53,7 @@ Starting a next app goes with `npm run dev`
 
 walletConnect.js:
 
-```
+```js
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "algorand-walletconnect-qrcode-modal";
 
@@ -72,7 +72,7 @@ As a side note [do not send the WalletConnect instance to the Redux store](https
 
 In Connect.jsx, let's start by writing the connect function:
 
-```
+```js
 const connectToMobileWallet = async () => {
     if (connector.connected) return;
     if (connector.pending) {
@@ -103,7 +103,7 @@ In our app we are making use of this session persistence to send the account add
 
 
 
-```
+```js
 useEffect(() => {
     if (connector.connected && connector.accounts.length > 0) {
       dispatch(replaceAddress(connector.accounts[0]));
@@ -116,7 +116,7 @@ For convenience I'm adding a side effect for desktop users to be able to close t
 
 
 
-```
+```js
 useEffect(() => {
     const escFunction = (event) => {
       if (event.keyCode === 27) {
@@ -133,7 +133,7 @@ Let's finish with the disconnect function:
 
 
 
-```
+```js
 const disconnectMobileWallet = async () => {
     if (!connector.connected) return;
     await connector.killSession();
@@ -149,7 +149,7 @@ We just need that effect to run once so we'll set it in pages/index.js. You coul
 
 
 
-```
+```js
 useEffect(() => {
     const ClientUAInstance = new UAParser();
     const os = ClientUAInstance.getOS();
@@ -178,7 +178,7 @@ draftAuthTx.js is where we define the bearer token props:
 
 
 
-```
+```js
 async function draftAuthTx({ wallet }) {
   const enc = new TextEncoder();
   const notePlainText = `https://stateless-auth.vercel.app/ ${Date.now() + day1}`;
@@ -192,7 +192,7 @@ I'm then drafting a 0 Algo 0 fee dummy transaction:
 
 
 
-```
+```js
 const authTransaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       suggestedParams: {
         fee: 0,
@@ -212,7 +212,7 @@ const authTransaction = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
 and sending it to the wallet:
 
 
-```
+```js
 const txnToSign = [
     {
       txn: Buffer.from(algosdk.encodeUnsignedTransaction(authTransaction)).toString("base64"),
@@ -237,7 +237,7 @@ The Android and iOS version of the Pera Wallet _do not return the same type of J
 Let's deal with this and return:
 
 
-```
+```js
 const token = Array.isArray(result[0]) ? Buffer.from(result[0]).toString("base64") : result[0];
 return token;
 ```
@@ -247,7 +247,7 @@ return token;
 Authenticate.jsx is a simple button with an auth function that calls draftAuthTx and sends the token returned to the redux store and to localStorage:
 
 
-```
+```js
 const auth = async () => {
     window.location.href = iOS ? `algorand-wc://` : `algorand://`;
     setIsAuthenticating(true);
@@ -271,7 +271,7 @@ Refetch is a function provided by our RTK query hook to trigger... a refetch. Si
 
 Our wallet slice is very straightforward. Since we are on Nextjs, our code will be executed server-side at build time where localStorage, window, and every other browser objects do not exist. Because we are loading our authToken from localStorage, in order to avoid errors at build time we need to check whether the code is being run server-side. If that is the case we just load authToken state with null.
 
-```
+```js
 import { createSlice } from "@reduxjs/toolkit";
 
 const wallet = {
@@ -308,7 +308,7 @@ We are mutating state directly in our reducers, something that should never be d
 Here the base url is  /api which is the path to Nextjs serverless functions:
 
 
-```
+```js
 const baseUrl = "/api";
 ```
 
@@ -317,7 +317,7 @@ I like to add retries to my queries, if a user is on a mobile and temporarily lo
 
 
 
-```
+```js
 const staggeredBaseQuery = retry(
   async (args, {dispatch, getState}, extraOptions) => {
     const result = await fetchBaseQuery({
@@ -355,7 +355,7 @@ Here I'm providing the "Dashboard" tag to our endpoint but we won't do any cache
 
 
 
-```
+```js
 export const nextApi = createApi({
   reducerPath: "nextApi",
   baseQuery: staggeredBaseQuery,
@@ -384,7 +384,7 @@ Wallet connect has these events: `connect, disconnect, session_request, session_
 
 
 
-```
+```js
 export const walletListeners = ({ dispatch }) => {
   connector.on("connect", (error, payload) => {
     try {
@@ -425,7 +425,7 @@ We just need to concat our walletListeners middleware to the default middleware 
 
 
 
-```
+```js
 const store = configureStore({
   reducer: {
     wallet: walletSlice,
@@ -445,7 +445,7 @@ We are going to conclude the section on the front-end with a reminder that shoul
 Furthermore if we create new Wallet Connect instances every time a user clicks on a connect button, it would be good to check if the previous connector is unused and gracefully shut the websocket before opening a new one, as an example:
 
 
-```
+```js
 if (connector.pending && !connector.connected) {
    connector.transportClose()
 }
@@ -464,7 +464,7 @@ Api requests for the user dashboard are therefore routed to `api/dashboard/[wall
 
 
 
-```
+```js
 export default async function handler(req, res) {
   try {
     // making sure we're getting a GET request
@@ -507,7 +507,7 @@ Second, noble crypto is fast, it uses precompute functions and caching to speed-
 
 
 
-```
+```js
 const authMidddleware = async (wallet, token) => {
   //converting the base64 encoded tx back to binary data
   const decodeToken = new Uint8Array(Buffer.from(token, "base64"));
